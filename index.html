@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ticket Booking</title>
+    <link rel="stylesheet" href="app.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1 class="app-title">Ticket booking app</h1>
+    <div class="ticket-app">
+        <div class="confirmed-dialog" v-if="confirmed">
+            <h3>Ticket confirmed!</h3>
+            <hr>
+            <br>
+            <table class="selected-seats">
+                <tr>
+                    <th>Passenger Name</th>
+                    <td>{{name}}</td>
+                <tr>
+                    <th>Passenger Contact</th>
+                    <td>{{mobile}}</td>
+
+                </tr>
+                <tr>
+                    <th>Seats:</th>
+                    <td>
+                        <div>
+                            <div v-for="(seat,id) in selectedSeats" :key="id" >
+                                {{seat.name}}
+                            </div>
+
+                        </div>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <th>Total Cost</th>
+                    <td>{{ subtotalCost }}</td>
+                </tr>
+
+            </table>
+
+            <br>
+
+            <button
+                    class="confirm-button"
+
+             @click="resetData()">
+                Book Again
+            </button>
+
+
+        </div>
+
+
+        <div class="ticket-app__top">
+            <div class="seat-states">
+                <div class="seat-state" v-for="states in seatStates">
+                    <div
+                            class="seat-state__color" :style="{ backgroundColor:states.color }"
+
+                    ></div>
+                    <div class="seat-state__text">{{ states.text}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticket-app__bottom">
+            <div class="ticket-app__left">
+                <div class="bus">
+                    <div class="bus__top">
+                        <div class="bus__door">Door</div>
+                        <div class="bus__driver">Driver</div>
+                    </div>
+
+                    <div class="seats">
+                        <div class="seat"
+                             :class="{
+                             'seat--booked': seat.type == 'booked',
+                             'seat--selected': seat.type == 'selected',
+                             'seat--sold': seat.type == 'sold',
+                              }"
+                             v-for="(seat,id) in seats" :key="id" @click="selectedSeat(id)" >
+                            {{ seat.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ticket-app__instruction"
+                 v-if="selectedSeats.length === 0" >
+                No seat selected <br/>
+                Select some seats first
+            </div>
+
+            <div class="ticket-app__right" v-else>
+                <div class="cart">
+                    <strong>Selected Seats</strong>
+                    <table class="selected-seats">
+                        <thead>
+                        <tr>
+                            <th>Seat</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(seat,id)  in selectedSeats" :key="id" >
+                            <td>{{ seat.name }}</td>
+                            <td>{{ seat.price }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Discount</td>
+                            <td><input type="text" v-model.number="discount" ></td>
+                        </tr>
+                        <tr>
+                            <th> Total</th>
+                            <th>{{ totalCost }}</th>
+                        </tr>
+                        <tr>
+                            <th>Sub-Total</th>
+                            <th>{{ subtotalCost }}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+
+                <div class="info">
+                    <input type="text" placeholder="Name" v-model="name" />
+                    <input type="text" placeholder="Mobile" v-model="mobile" />
+                </div>
+
+                <button class="confirm-button" @click="confirm()" >Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
