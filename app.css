@@ -87,6 +87,8 @@ ul {
 /*================= Ticket App ======================= */
 .app-title {
     text-align: center;
+    background: green;
+    color: white;
 }
 
 .ticket-app {
